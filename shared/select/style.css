@@ -1,0 +1,16 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+html,body {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+}
+a {
+    display:inline-block;
+    background-color: white;
+    width: 329px;
+    height: 540px;
+    margin:29px;
+}

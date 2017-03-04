@@ -1,0 +1,40 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    -webkit-user-select: none;
+}
+html,body{
+    width:100%;
+    height:100%;
+}
+p {
+    font-size: 50px;
+}
+.drag-line {
+    -webkit-app-region: drag;
+    width:100%;
+    height:40px;
+    background-color: cornflowerblue;
+}
+.button{
+    display: inline-block;
+    cursor: pointer;
+    width:32px;
+    height:32px;
+}
+.minimize{
+    background-color: white;
+    margin:4px auto 4px 720px;
+}
+.close{
+    background-color: red;
+    margin:4px auto 4px 4px;
+}
+.container {
+    height:760px;
+    width:100%;
+}
+button{
+    height:16px;
+    width:16px;
+}

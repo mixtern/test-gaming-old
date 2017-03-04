@@ -1,0 +1,15 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.top {
+    width: 100%;
+    -webkit-app-region: drag;
+    height: 34px;
+    background-color: #1A00F1;
+}
+iframe{
+    display:block;
+    width:100%;
+    height:600px;
+}

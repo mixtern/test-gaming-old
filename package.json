@@ -1,0 +1,9 @@
+{
+  "name": "test-gaming",
+  "version": "0.0.1",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^1.4.15",
+    "electron-packager": "^8.5.1"
+  }
+}
