@@ -15,38 +15,38 @@ function parsePost(req){
         body += data;
         if (body.length >1e6) {
             req.disconnect()
-        }})
+        }});
     req.on('end',function(){
         post = qs.parse(body);
         if (post==undefined) {
             setTimeout(function () {
                 req.emit('end');
-            }, 50)
+            }, 50);
             return;
         }
         result = post;
-    })
+    });
     return result;
 }
 
 function sendFile(path,res) {
-    fs.exists(pathmod.join('./shared',path),function (exist){
+    fs.exists(pathModule.join('./shared',path),function (exist){
         if (!exist) {
             res.writeHead(404);
             res.end('Page not found');
             return;
-        };
-        fs.stat(pathmod.join('./shared',path),function (err,stats){
+        }
+        fs.stat(pathModule.join('./shared',path),function (err,stats){
             if (err) {
                 throw err;
-            };
+            }
             var  file;
             if (stats.isDirectory()){
-                file = fs.createReadStream(pathmod.join('./shared',path,'index.html'));
+                file = fs.createReadStream(pathModule.join('./shared',path,'index.html'));
                 file.pipe(res);
             }
             else if (stats.isFile()){
-                file = fs.createReadStream(pathmod.join('./shared',path));
+                file = fs.createReadStream(pathModule.join('./shared',path));
                 file.pipe(res);
             }
 
@@ -81,7 +81,7 @@ app.on("ready", function () {
 
 var fs = require('fs'),
     qs = require('querystring'),
-    pathmod = require('path');
+    pathModule = require('path');
     server = new http.createServer(),
     hostname = '127.0.0.1';
 
