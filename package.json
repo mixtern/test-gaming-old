@@ -1,9 +1,29 @@
 {
-  "name": "test-gaming",
+  "name": "@mixtern/test-gaming",
   "version": "0.0.1",
   "main": "main.js",
   "devDependencies": {
     "electron": "^1.4.15",
     "electron-packager": "^8.5.1"
-  }
+  },
+  "description": "test your knowledges while playing",
+  "dependencies": {
+    "electron-packager": "^8.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mixtern/test-gaming2.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "mixtern <mixternnik@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mixtern/test-gaming2/issues"
+  },
+  "homepage": "https://github.com/mixtern/test-gaming2#readme"
 }
