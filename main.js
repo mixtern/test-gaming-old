@@ -72,7 +72,7 @@ app.on("ready", function () {
             height:634,
             resizable:false,
             maximizable:false,
-            backgroundColor:"#FFCA1B"
+            backgroundColor:"transparent"
         });
     server.listen(15189,function(){
         window.loadURL("http://localhost:15189/");

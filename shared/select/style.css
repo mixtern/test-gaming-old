@@ -12,5 +12,7 @@ a {
     background-color: white;
     width: 329px;
     height: 540px;
-    margin:29px;
+    margin:28px;
+    border:2px solid lightgrey;
+    border-radius: 10px;
 }
