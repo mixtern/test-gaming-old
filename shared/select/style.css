@@ -10,9 +10,9 @@ html,body {
 a {
     display:inline-block;
     background-color: white;
-    width: 329px;
-    height: 540px;
-    margin:28px;
+    width: 350px;
+    height: 548px;
+    margin:25px 0px 35px 25px;
     border:2px solid lightgrey;
     border-radius: 10px;
 }
