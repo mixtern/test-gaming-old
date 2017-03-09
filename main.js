@@ -7,13 +7,12 @@ const fs = require('fs');
 const qs = require('querystring');
 const pathModule = require('path');
 
-var server = new http.createServer(),
-    hostname = '127.0.0.1';
+var server = new http.createServer();
 
 server.on('request',function(req,res){
     switch(req.url)
     {
-        case '/start-srv':
+        case '/host':
             start_srv(parsePost(req),req,res);
             return;
     }
@@ -25,7 +24,7 @@ function start_srv(post,req,res){
 
 }
 function parsePost(req){
-    var post,body = '',result;
+    var post,body = '',result={};
     req.on('data',function(data){
         body += data;
         if (body.length >1e6) {
@@ -64,14 +63,14 @@ function sendFile(path,res) {
                 file.pipe(res);
             }})})}
 function getIP() {
-    var list= new Array();
+    var list= [];
     var os = require('os');
     var ifaces = os.networkInterfaces();
     Object.keys(ifaces).forEach(function (ifname) {
         ifaces[ifname].forEach(function (iface) {
             if ('IPv4' !== iface.family || iface.internal !== false) return;
             list.push(iface.address)
-        })})
+        })});
     return list;
 }
 
