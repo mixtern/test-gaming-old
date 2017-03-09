@@ -3,6 +3,22 @@ const electron = require('electron');
 const http = require('http');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const fs = require('fs');
+const qs = require('querystring');
+const pathModule = require('path');
+
+var server = new http.createServer(),
+    hostname = '127.0.0.1';
+
+server.on('request',function(req,res){
+    switch(req.url)
+    {
+        case '/start-srv':
+            start_srv(parsePost(req),req,res);
+            return;
+    }
+    sendFile(req.url,res);
+});
 
 function start_srv(post,req,res){
 
@@ -27,7 +43,6 @@ function parsePost(req){
     });
     return result;
 }
-
 function sendFile(path,res) {
     fs.exists(pathModule.join('./shared',path),function (exist){
         if (!exist) {
@@ -47,10 +62,7 @@ function sendFile(path,res) {
             else if (stats.isFile()){
                 file = fs.createReadStream(pathModule.join('./shared',path));
                 file.pipe(res);
-            }
-
-        })})}
-
+            }})})}
 function getIP() {
     var list= new Array();
     var os = require('os');
@@ -63,6 +75,7 @@ function getIP() {
     return list;
 }
 
+var window;
 app.on("ready", function () {
     window = new BrowserWindow(
         {
@@ -76,20 +89,4 @@ app.on("ready", function () {
     server.listen(15189,function(){
         window.loadURL("http://localhost:15189/");
     });
-});
-
-var fs = require('fs'),
-    qs = require('querystring'),
-    pathModule = require('path');
-    server = new http.createServer(),
-    hostname = '127.0.0.1';
-
-server.on('request',function(req,res){
-    switch(req.url)
-    {
-        case '/start-srv':
-            start_srv(parsePost(req),req,res);
-            return;
-    }
-    sendFile(req.url,res);
 });
