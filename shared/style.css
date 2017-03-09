@@ -1,8 +1,8 @@
 *{
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
-.top {
+.top{
     width: 100%;
     -webkit-app-region: drag;
     height: 34px;
