@@ -137,4 +137,8 @@ temp.ctx = temp.getContext('2d');
 			gui.draw();
 		}};
 		game.start();
+
+
+
+
 	});
