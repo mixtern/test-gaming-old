@@ -13,10 +13,10 @@ server.on('request',function(req,res){
     switch(req.url)
     {
         case '/host':
-            start_srv(parsePost(req),req,res);
+            parsePost(req,res,start_srv);
             return;
         case '/connect':
-            connect(parsePost(req),req,res);
+            parsePost(req,res,connect);
             return;
     }
     sendFile(req.url,res);
@@ -34,8 +34,8 @@ function connect(post,req,res) {
 
 }
 
-function parsePost(req){
-    var post,body = '',result={};
+function parsePost(req,res,callback){
+    var post={},body = '';
     req.on('data',function(data){
         body += data;
         if (body.length >1e6) {
@@ -47,11 +47,9 @@ function parsePost(req){
             setTimeout(function () {
                 req.emit('end');
             }, 50);
-            return;
         }
-        result = post;
+        callback(post,req,res)
     });
-    return result;
 }
 function sendFile(path,res) {
     fs.exists(pathModule.join('./shared',path),function (exist){
