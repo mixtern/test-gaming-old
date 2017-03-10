@@ -26,8 +26,6 @@ function start_srv(post,req,res){
     window.game_srv = new http.createServer();
     game_srv.on("request",function (req,res){
 
-
-
     })
 }
 function connect(post,req,res) {

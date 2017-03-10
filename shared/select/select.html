@@ -13,7 +13,15 @@
         <input type="submit" value="Подключится">
     </form>
     <form class="server" action="/host" method="post">
-        <a href="/server/server.html">server</a>
+        <input type="text" name="name" placeholder="Имя сервера">
+        <input type="text" name="port" placeholder="Порт (Необязательно)">
+        <!-- JSON файл уровней -->
+        <input type="file">
+        <input type="hidden" name="levels">
+        <!-- JSON файл теста -->
+        <input type="file">
+        <input type="hidden" name="">
+        <input type="submit" value="Создать сервер">
     </form>
 </body>
 </html>
