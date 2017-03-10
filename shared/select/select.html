@@ -7,7 +7,10 @@
 </head>
 <body>
     <form class="client" action="/connect" method="post">
-        <a href="/client/client.html">client</a>
+        <input type="text" name="name" placeholder="Ваше имя">
+        <input type="text" name="ip" class="inline ip" placeholder="ip-адрес сервера">
+        <input type="text" name="port" class="inline port" placeholder="порт">
+        <input type="submit" value="Подключится">
     </form>
     <form class="server" action="/host" method="post">
         <a href="/server/server.html">server</a>

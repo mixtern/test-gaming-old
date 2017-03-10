@@ -28,3 +28,20 @@ form {
 .server {
     right:32px;
 }
+input {
+    text-align: center;
+    height:32px;
+    margin-top:15px;
+    width: 200px;
+    border-radius:15px;
+}
+input:focus{
+    outline: none;
+    box-shadow: #1a8cff 5px;
+}
+.ip {
+    width:140px;
+}
+.port {
+    width:50px;
+}

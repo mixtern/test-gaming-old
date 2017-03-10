@@ -15,14 +15,25 @@ server.on('request',function(req,res){
         case '/host':
             start_srv(parsePost(req),req,res);
             return;
+        case '/connect':
+            connect(parsePost(req),req,res);
+            return;
     }
     sendFile(req.url,res);
 });
 
 function start_srv(post,req,res){
+    window.game_srv = new http.createServer();
+    game_srv.on("request",function (req,res){
 
+
+
+    })
+}
+function connect(post,req,res) {
 
 }
+
 function parsePost(req){
     var post,body = '',result={};
     req.on('data',function(data){
