@@ -35,7 +35,7 @@ input {
     width: 200px;
     border-radius:15px;
 }
-input:focus{
+option:focus,select:focus,input:focus{
     outline: none;
     box-shadow: #1a8cff 5px;
 }
@@ -44,4 +44,11 @@ input:focus{
 }
 .port {
     width:50px;
+}
+select{
+    display:block;
+    width:200px;
+    height:30px;
+    border-radius:5px;
+    margin:15px 0 0 75px;
 }

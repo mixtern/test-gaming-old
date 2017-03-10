@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>select</title>
     <link rel="stylesheet" href="style.css">
+    <script src="renderer.js"></script>
 </head>
 <body>
     <form class="client" action="/connect" method="post">
@@ -16,11 +17,13 @@
         <input type="text" name="name" placeholder="Имя сервера">
         <input type="text" name="port" placeholder="Порт (Необязательно)">
         <!-- JSON файл уровней -->
-        <input type="file">
-        <input type="hidden" name="levels">
+        <select name="level" id="level">
+            <option value="w8">Пожалуйста подождите...</option>
+        </select>
         <!-- JSON файл теста -->
-        <input type="file">
-        <input type="hidden" name="">
+        <select name="test" id="test">
+            <option value="w8">Пожалуйста подождите...</option>
+        </select>
         <input type="submit" value="Создать сервер">
     </form>
 </body>
