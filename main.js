@@ -90,7 +90,10 @@ app.on("ready", function () {
             height:634,
             resizable:false,
             maximizable:false,
-            backgroundColor:"transparent"
+            backgroundColor:"transparent",
+            webPreferences: {
+                nodeIntegration: true
+            }
         });
     server.listen(15189,function(){
         window.loadURL("http://localhost:15189/");
