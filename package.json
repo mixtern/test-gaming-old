@@ -8,6 +8,7 @@
   },
   "description": "test your knowledges while playing",
   "dependencies": {
+    "electron": "^1.4.15",
     "electron-packager": "^8.5.2"
   },
   "scripts": {
