@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main window</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="renderer.js" ></script>
+</head>
+<body>
+    <div class="top"></div>
+    <div class="container main">
+        <div class="cli" id="client">
+            <input type="text" name="name" placeholder="Ваше имя">
+            <input type="text" name="ip" class="inline ip" placeholder="ip-адрес сервера">
+            <input type="text" name="port" class="inline port" placeholder="порт">
+            <button onclick="connect();">Подключится</button>
+        </div>
+        <div class="srv" id="server">
+            <input type="text" name="name" placeholder="Имя сервера">
+            <input type="text" name="port" placeholder="Порт (Необязательно)">
+            <!-- JSON файл уровней -->
+            <select name="level" id="level">
+                <option value="w8">Пожалуйста подождите...</option>
+            </select>
+            <!-- JSON файл теста -->
+            <select name="test" id="test">
+                <option value="w8">Пожалуйста подождите...</option>
+            </select>
+            <button onclick="startSrv();">Создать</button>
+        </div>
+        </div>
+    <div class="container client hide"></div>
+    <div class="container server hide">
+        <div id="status"></div>
+        <div id="ips"></div>
+        <div id="connection-list"></div>
+    </div>
+        <div id="w8" class="w8 hide">Loading</div>
+</body>
+</html>
