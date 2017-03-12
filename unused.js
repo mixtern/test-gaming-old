@@ -1,5 +1,3 @@
-
-
 function parsePost(req,res,callback){
     const qs = require('querystring');
     var post={},body = '';

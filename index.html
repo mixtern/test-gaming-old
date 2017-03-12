@@ -5,6 +5,8 @@
     <title>Main window</title>
     <link rel="stylesheet" href="style.css">
     <script src="renderer.js" ></script>
+    <script src="server.js"></script>
+    <script src="client.js"></script>
 </head>
 <body>
     <div class="top"></div>
@@ -31,8 +33,10 @@
         </div>
     <div class="container client hide"></div>
     <div class="container server hide">
-        <div id="status"></div>
-        <ul id="ips"></ul>
+        <div id="status">
+            <ul id="ips"></ul>
+
+            </div>
         <div id="connection-list"></div>
     </div>
         <div id="w8" class="w8 hide">Loading</div>
