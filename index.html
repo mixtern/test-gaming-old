@@ -7,6 +7,7 @@
     <script src="renderer.js" ></script>
     <script src="server.js"></script>
     <script src="client.js"></script>
+    <script src="game.js"></script>
 </head>
 <body>
     <div class="top"></div>
@@ -37,8 +38,17 @@
             <ul id="ips"></ul>
 
             </div>
-        <div id="connection-list"></div>
+        <div id="connection-list">
+            <ul id="connections"><li>connections:</li></ul>
+        </div>
     </div>
         <div id="w8" class="w8 hide">Loading</div>
+        <div class="game hide">
+            <canvas height="600" width="800" id="background"></canvas>
+            <canvas height="600" width="800" id="main"></canvas>
+            <canvas height="600" width="800" id="player"></canvas>
+            <canvas height="600" width="800" id="gui"></canvas>
+            <canvas height="600" width="800" id="hidden"></canvas>
+        </div>
 </body>
 </html>
