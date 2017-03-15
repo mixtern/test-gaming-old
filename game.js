@@ -9,29 +9,8 @@ function getRnd(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
-
 var physics = {
         calc:function(){
-
-        }
-    },
-    proto = {
-        /*level:{
-         height:,
-         width:,
-         sprites:{},
-         map:Array
-         },*/
-        block:function(x,y,img){
-            var obj={
-                sprite:new Image(),
-                type:"block",
-                collision:false,
-                draw:function(x,y){
-                    temp.ctx.drawImage(this.sprite,x*32,y*24);
-                }};
-            obj.sprite.src = img;
-            return obj;
         }
     },
     create = {
