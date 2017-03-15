@@ -1,7 +1,11 @@
 function handler(req,res){
-
     res.end('Hello world');
 }
+var containers;
+window.addEventListener("load", function() {
+    containers =  document.getElementsByClassName("container");
+});
+
 function startSrv(){
     var form = document.getElementById("server");
     containers[0].classList.add("hide");
