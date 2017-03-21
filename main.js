@@ -9,7 +9,7 @@ app.on("ready", function () {
         {
             frame:false,
             width:800,
-            height:634,
+            height:638,
             resizable:false,
             maximizable:false
         });

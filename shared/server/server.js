@@ -1,5 +1,27 @@
+function sendFile(path,res) {
+    fs.exists(pathmod.join('./shared',path),function (exist){
+        if (!exist) {
+            res.writeHead(404);
+            res.end('Page not found');
+            return;
+        };
+        fs.stat(pathmod.join('./shared',path),function (err,stats){
+            if (err) {
+                throw err;
+            };
+            var  file;
+            if (stats.isDirectory()){
+                file = fs.createReadStream(pathmod.join('./shared',path,'index.html'));
+                file.pipe(res);
+            }
+            else if (stats.isFile()){
+                file = fs.createReadStream(pathmod.join('./shared',path));
+                file.pipe(res);
+            }
+
+        })})}
 function handler(req,res){
-    res.end('Hello world');
+    sendFile(req.url());
 }
 var containers;
 window.addEventListener("load", function() {

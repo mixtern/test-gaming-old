@@ -1,54 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main window</title>
+    <title>Test gaming</title>
     <link rel="stylesheet" href="style.css">
-    <script src="renderer.js" ></script>
-    <script src="server.js"></script>
-    <script src="client.js"></script>
-    <script src="game.js"></script>
 </head>
 <body>
     <div class="top"></div>
-    <div class="container main">
-        <div class="cli" id="client">
-            <input type="text" name="cliName" placeholder="Ваше имя">
-            <input type="text" name="cliIP" class="inline ip" placeholder="ip-адрес сервера">
-            <input type="text" name="port" class="inline port" placeholder="порт">
-            <button onclick="connect();">Подключится</button>
-        </div>
-        <div class="srv" id="server">
-            <input type="text" id="srvName" placeholder="Имя сервера">
-            <input type="text" id="srvPort" placeholder="Порт (Необязательно)">
-            <!-- JSON файл уровней -->
-            <select name="level" id="level">
-                <option value="w8">Пожалуйста подождите...</option>
-            </select>
-            <!-- JSON файл теста -->
-            <select name="test" id="test">
-                <option value="w8">Пожалуйста подождите...</option>
-            </select>
-            <button onclick="startSrv();">Создать</button>
-        </div>
-        </div>
-    <div class="container client hide"></div>
-    <div class="container server hide">
-        <div id="status">
-            <ul id="ips"></ul>
-
-            </div>
-        <div id="connection-list">
-            <ul id="connections"><li>connections:</li></ul>
-        </div>
-    </div>
-        <div id="w8" class="w8 hide">Loading</div>
-        <div class="game hide">
-            <canvas height="600" width="800" id="background"></canvas>
-            <canvas height="600" width="800" id="main"></canvas>
-            <canvas height="600" width="800" id="player"></canvas>
-            <canvas height="600" width="800" id="gui"></canvas>
-            <canvas height="600" width="800" id="hidden"></canvas>
-        </div>
+    <iframe src="shared/select.html" frameborder="0"></iframe>
 </body>
 </html>
