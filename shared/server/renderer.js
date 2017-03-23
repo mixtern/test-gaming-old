@@ -1,7 +1,7 @@
 function getMaps(){
     var path = require("path");
     var fs = require("fs");
-    var mapPath = path.join(__dirname,"/maps");
+    var mapPath = path.join(__dirname,"../../maps");
     var list = document.getElementById("level");
     list.innerHTML = "";
     fs.readdir(mapPath,function (err,files){
@@ -15,7 +15,7 @@ function getMaps(){
 function getTests(){
     var path = require("path");
     var fs = require("fs");
-    var testPath = path.join(__dirname,"/tests");
+    var testPath = path.join(__dirname,"../../tests");
     var list = document.getElementById("test");
     list.innerHTML="";
     fs.readdir(testPath,function (err,files){

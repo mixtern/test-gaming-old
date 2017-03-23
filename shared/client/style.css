@@ -4,15 +4,50 @@
 }
 html,body{
     width:800px;
-    height: 600px;
+    height:600px;
 }
-.container{
+canvas{
+    position: absolute;
+    width:800px;
+    height:600px;
+}
+.new {
+
+}
+.connect {
+    width:92vw;
+    height:92vh;
+    padding: 4vh 4vw;
+}
+.game {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+}
+.hide {
+    display:none;
+}
+#hidden {
+    display: none;
+}
+.found{
+    width:95vw;
+    height:80vh;
+}
+#list,#list>tbody {
+    display:inline-block;
     width:100%;
     height:100%;
 }
-.new{
-    border:1px solid lightgray;
-    height:30px;
+#list>*,#list>*>*,#list>*>*>*{
+    display:inline-flex;
+}
+td,th{
+    width:25%
+}
+tr {
     width:100%;
-    border-radius:5px;
+    height:5%
 }

@@ -18,8 +18,8 @@ function sendFile(path,res) {
                 file = fs.createReadStream(pathmod.join('./shared',path));
                 file.pipe(res);
             }
-
         })})}
+
 function handler(req,res){
     sendFile(req.url());
 }
@@ -29,15 +29,17 @@ window.addEventListener("load", function() {
 });
 
 function startSrv(){
-    var form = document.getElementById("server");
-    containers[0].classList.add("hide");
-    w8(true);
+    var create = document.getElementById('create');
+    create.classList.add('hide');
+    var hold = document.getElementById('hold');
+    hold.classList.remove('hide');
     var http = require("http");
     var server = new http.createServer();
     server.on("request",handler);
-    var port = document.getElementById("srvPort").value;
+    var serverName = document.getElementById('name');
+    var port = document.getElementById("port").value;
     server.listen(port<1024?1337:port, function(err) {
-        containers[2].classList.remove("hide");
+        classList.remove("hide");
         w8(false);
         getIP(port<1024?1337:port);
     });
@@ -55,7 +57,6 @@ function getIP(port) {
     var content = "<li>ips:</li>";
     for(var i=0;i<list.length;i++){
         content+="<li>"+list[i]+":"+port+"</li>";
-
     }
     var ips = document.getElementById("ips");
     ips.innerHTML = content;
