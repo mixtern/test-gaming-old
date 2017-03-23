@@ -29,4 +29,25 @@ function getTests(){
 window.addEventListener("load", function() {
     getMaps();
     getTests();
+    document.getElementById('command').onkeypress = function(e){
+        var console={
+            log:function(str){
+                var out=document.getElementById('output');
+                out.innerHTML += '<p class="log">'+str+'</p>';
+            },
+            warn:function(str){
+                var out=document.getElementById('output');
+                out.innerHTML += '<p class="warn">'+str+'</p>';
+            },
+            info:function(str){
+                var out=document.getElementById('output');
+                out.innerHTML += '<p class="info">'+str+'</p>';
+            }
+        };
+        if (e.keyCode == '13') {
+            command = document.getElementById('command').value;
+            document.getElementById('command').value = '';
+            console.log(eval(command));
+
+        }};
 });

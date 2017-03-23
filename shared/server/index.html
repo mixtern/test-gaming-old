@@ -7,7 +7,7 @@
     <script src="server.js"></script>
 </head>
 <body>
-    <div class="create">
+    <div id="create" class="create">
         <input type="text" id="name" placeholder="Имя сервера">
         <input type="text" id="port" placeholder="Порт">
         <div class="label">
@@ -22,8 +22,16 @@
                 <option value="w8">Пожалуйста подождите...</option>
             </select>
         </div>
-        <button onclick="startSrv();">Запустить</button>
+        <button onclick="host();">Запустить</button>
     </div>
-    <div class="hold hide"></div>
+    <div id="hold" class="hold hide">
+        <!--TODO server status-->
+
+        <ul id="ips"></ul>
+        <div id="console">
+            <p id="output"></p>
+            <input type="text" id="command">
+        </div>
+    </div>
 </body>
 </html>

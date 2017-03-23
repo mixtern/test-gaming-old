@@ -1,5 +1,5 @@
 function connect(){
-
+    //TODO connecting
 }
 var favourite ={
     list:[],
@@ -22,7 +22,8 @@ var favourite ={
         favourite.refresh();
     },
     remove:function(){
-        //TODO
+        //TODO removing favourite
+
     }
 }
 window.addEventListener("load",setTimeout(1000,favourite.refresh()))

@@ -1,4 +1,5 @@
 function sendFile(path,res) {
+    //TODO Handler
     fs.exists(pathmod.join('./shared',path),function (exist){
         if (!exist) {
             res.writeHead(404);
@@ -21,28 +22,30 @@ function sendFile(path,res) {
         })})}
 
 function handler(req,res){
+    //switch(){}
+    //TODO switch
     sendFile(req.url());
 }
-var containers;
-window.addEventListener("load", function() {
-    containers =  document.getElementsByClassName("container");
-});
-
-function startSrv(){
+function startSrv(name,port,map,test){
+    var http = require("http");
+    var server = new http.createServer();
+    server.on("request",handler);
+    server.listen(port<1024?1337:port, function(err) {
+        if(err) throw err;
+        getIP(port<1024?1337:port);
+    });
+}
+function host(){
     var create = document.getElementById('create');
     create.classList.add('hide');
     var hold = document.getElementById('hold');
     hold.classList.remove('hide');
-    var http = require("http");
-    var server = new http.createServer();
-    server.on("request",handler);
+
     var serverName = document.getElementById('name');
     var port = document.getElementById("port").value;
-    server.listen(port<1024?1337:port, function(err) {
-        classList.remove("hide");
-        w8(false);
-        getIP(port<1024?1337:port);
-    });
+    var map = document.getElementById("level").value;
+    var test = document.getElementById("test").value;
+    startSrv(serverName,port,map,test);
 }
 function getIP(port) {
     var list= [];
