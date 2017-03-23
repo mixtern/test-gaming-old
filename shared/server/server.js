@@ -1,22 +1,17 @@
 function sendFile(path,res) {
-    //TODO Handler
-    fs.exists(pathmod.join('./shared',path),function (exist){
+    var fs = require('fs');
+    fs.exists(path)(function (exist){
         if (!exist) {
             res.writeHead(404);
             res.end('Page not found');
             return;
-        };
-        fs.stat(pathmod.join('./shared',path),function (err,stats){
+        }
+        fs.stat(path)(function (err,stats){
             if (err) {
                 throw err;
-            };
-            var  file;
-            if (stats.isDirectory()){
-                file = fs.createReadStream(pathmod.join('./shared',path,'index.html'));
-                file.pipe(res);
             }
-            else if (stats.isFile()){
-                file = fs.createReadStream(pathmod.join('./shared',path));
+            if (stats.isFile()){
+                var file = fs.createReadStream(path);
                 file.pipe(res);
             }
         })})}

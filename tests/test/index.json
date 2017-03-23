@@ -3,6 +3,5 @@
   "length":5,
   "questions":["where is b?"],
   "answers":[["a","b","c","d"]],
-  "rightAnswer":[1],
   "marking":[80,65,50]
 }

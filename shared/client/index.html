@@ -12,17 +12,18 @@
             <input type="text" id="name">
             <input type="text" id="ip">
             <input type="text" id="port">
-            <button onclick="favourite.add()"></button>
+            <button onclick="favourite.add();"></button>
         </div>
         <div class="found">
             <table id="list">
-                <!--	&#9733; with color for fav-->
+                <tbody id="tlist">
                 <tr>
-                    <th>&#10032;</th>
                     <th>Имя</th>
                     <th>IP</th>
                     <th>Порт</th>
+                    <th>Подключиться</th>
                 </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -33,5 +34,8 @@
         <canvas height="600" width="800" id="gui"></canvas>
         <canvas height="600" width="800" id="hidden"></canvas>
     </div>
+    <script>
+        favourite.refresh();
+    </script>
 </body>
 </html>

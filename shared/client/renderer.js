@@ -1,5 +1,5 @@
-function connect(){
-    //TODO connecting
+function connect(ip,port){
+    //TODO connecting via ajax request
 }
 var favourite ={
     list:[],
@@ -7,6 +7,11 @@ var favourite ={
         var path = require('path');
         var fs = require('fs');
         favourite.list = JSON.parse(fs.readFileSync(path.join(__dirname,'../../config','favourites.json')));
+        var out = '<tr><th>Имя</th><th>IP</th><th>Порт</th><th>Подключиться</th></tr>';
+        favourite.list.forEach(function(fav){
+            out += '<tr><td>'+fav.name+'</td><td>'+ fav.ip +'</td><td>'+ fav.port +'</td><td><button onclick="connect(\''+fav.ip +'\',\''+ fav.port+'\')">Подключится</button></td>';
+        });
+        document.getElementById("tlist").innerHTML = out;
     },
     add:function(){
         var fs = require('fs');
@@ -25,5 +30,4 @@ var favourite ={
         //TODO removing favourite
 
     }
-}
-window.addEventListener("load",setTimeout(1000,favourite.refresh()))
+};
