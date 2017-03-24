@@ -118,3 +118,45 @@ window.addEventListener("load",function(){
         }};
 });
 //TODO Graphics
+
+function getSprites(ip,port) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            window.map = JSON.parse(httpRequest.responseText);
+            window.floors = [];
+            map.floors.forEach(getFloor)
+        }};
+    httpRequest.open('GET','http://'+ip+':'+port+'/map/index.json', true);
+    httpRequest.send(null);
+}
+function loadImages() {
+    floors.forEach
+    //floor.bgrImage;
+    //floor.plrImage
+    //floor.textureList
+}
+function getFloor(name,index,array) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function () {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            window.floors[index] = JSON.parse(httpRequest.responseText);
+            window.floors[index].name = name;
+            if (array.lastIndex===index){
+                loadImages();
+            }
+        }
+    };
+    httpRequest.open('GET','http://'+ip+':'+port+'/map/'+name+'/index.json',true);
+    httpRequest.send(null);
+}
+function getTests(ip,port) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            window.testList = JSON.parse(httpRequest.responseText);
+        }
+    };
+    httpRequest.open('GET','http://'+ip+':'+port +'/tst/index.json', true);
+    httpRequest.send(null);
+}

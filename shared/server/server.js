@@ -1,33 +1,48 @@
 function sendFile(path,res) {
     var fs = require('fs');
-    fs.exists(path)(function (exist){
+    fs.exists(path,function (exist){
         if (!exist) {
             res.writeHead(404);
             res.end('Page not found');
             return;
         }
-        fs.stat(path)(function (err,stats){
+        fs.stat(path,function (err,stats){
             if (err) {
                 throw err;
             }
-            if (stats.isFile()){
+            if (stats.isFile()&&path.slice(path.lastIndexOf('/')) != 'rightAnswers.json'){
                 var file = fs.createReadStream(path);
                 file.pipe(res);
             }
+            else {
+                res.writeHead(404);
+                res.end('Page not found');
+            }
         })})}
-
+var stats ={};
 function handler(req,res){
-    //switch(){}
-    //TODO switch
-    sendFile(req.url());
+    asdf.log('send',req.url);
+    var path = require('path');
+    switch(req.url.slice(1,4)){
+        case 'map':
+            sendFile(path.join(__dirname,'../../maps',stats.map,req.url.slice(4)),res);
+            break;
+        case 'tst':
+            sendFile(path.join(__dirname,'../../tests',stats.test,req.url.slice(4)),res);
+
+            break;
+        case '':
+            res.end('OK');
+            break;
+    }
 }
-function startSrv(name,port,map,test){
+function startSrv(){
     var http = require("http");
     var server = new http.createServer();
     server.on("request",handler);
-    server.listen(port<1024?1337:port, function(err) {
+    server.listen(stats.port<1024?1337:stats.port, function(err) {
         if(err) throw err;
-        getIP(port<1024?1337:port);
+        getIP(stats.port<1024?1337:stats.port);
     });
 }
 function host(){
@@ -36,11 +51,11 @@ function host(){
     var hold = document.getElementById('hold');
     hold.classList.remove('hide');
 
-    var serverName = document.getElementById('name');
-    var port = document.getElementById("port").value;
-    var map = document.getElementById("level").value;
-    var test = document.getElementById("test").value;
-    startSrv(serverName,port,map,test);
+    stats.serverName = document.getElementById('name');
+    stats.port = document.getElementById("port").value;
+    stats.map = document.getElementById("level").value;
+    stats.test = document.getElementById("test").value;
+    startSrv();
 }
 function getIP(port) {
     var list= [];
@@ -59,3 +74,9 @@ function getIP(port) {
     var ips = document.getElementById("ips");
     ips.innerHTML = content;
 }
+asdf={
+  log:function () {
+      var str = Array().join.apply(arguments,[' '])
+      document.getElementById('output').innerHTML+=str+'<br/>';
+  }
+};

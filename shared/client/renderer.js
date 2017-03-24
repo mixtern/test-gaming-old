@@ -1,5 +1,18 @@
 function connect(ip,port){
-    //TODO connecting via ajax request
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if(httpRequest.responseText === 'OK'){
+                window.ip= ip;
+                window.port = port;
+                getSprites(ip,port);
+                getTests(ip,port);
+                console.log('OK');
+            }
+        }
+    };
+    httpRequest.open('GET','http://'+ip+':'+port, true);
+    httpRequest.send(null);
 }
 var favourite ={
     list:[],

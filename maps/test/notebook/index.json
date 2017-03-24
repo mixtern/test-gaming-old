@@ -1,5 +1,8 @@
 {
-  "textureList":["air","block11"],
-  "bgrImage":"",
+  "textures":{
+    "blocks":["block.png"],
+    "background":"bgrnd.png",
+    "player":"plr.png"
+  },
   "roomCount":1
 }
