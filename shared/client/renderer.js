@@ -5,8 +5,9 @@ function connect(ip,port){
             if(httpRequest.responseText === 'OK'){
                 window.ip= ip;
                 window.port = port;
-                getSprites(ip,port);
-                getTests(ip,port);
+                getMaps();
+                getRooms();
+                getTests();
                 console.log('OK');
             }
         }

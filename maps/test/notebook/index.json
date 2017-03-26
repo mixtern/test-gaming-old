@@ -1,8 +1,9 @@
 {
   "textures":{
-    "blocks":["block.png"],
-    "background":"bgrnd.png",
-    "player":"plr.png"
+    "list":["block.png","bgrnd.png","plr.png"],
+    "blocks":[0],
+    "background":1,
+    "player":2
   },
   "roomCount":1
 }

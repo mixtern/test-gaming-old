@@ -32,14 +32,14 @@ window.addEventListener("keydown",
             keys[e.keyCode]=true;
         }
     },
-    false);
+    true);
 window.addEventListener('keyup',
     function(e){
         if (e.keyCode in keys) {
             delete keys[e.keyCode];
         }
     },
-    false);
+    true);
 // псевдо-константы
 constant = {
     fps:60
@@ -61,9 +61,12 @@ window.addEventListener("load",function(){
         canvas:document.getElementById("main"),
         ctx:document.getElementById("main").getContext('2d'),
         blocks:[],
+        height:0,
+        width:0,
+        textures:[],
         draw:function(){
             temp.ctx.clearRect(0,0,800,600);
-            if(game.mode == "debug"){
+            if(game.mode === "debug"){
                 for(var x = 0;x*25<800;x++){
                     for(var y = 0;y*25<600;y++) {
                         temp.ctx.strokeStyle = "#0000FF";
@@ -95,8 +98,11 @@ window.addEventListener("load",function(){
     };
     temp.ctx = temp.getContext('2d');
     window.game = {
-        mode:"debug",
+        //mode:"debug",
+        mode:"production",
         start:function(){
+            document.getElementById('connect').classList.add('hide');
+            document.getElementById('game').classList.remove('hide');
             game.interval = setInterval(game.reDraw,1000/game.fps)
         },
         stop:function(){
@@ -119,44 +125,77 @@ window.addEventListener("load",function(){
 });
 //TODO Graphics
 
-function getSprites(ip,port) {
+function getMaps() {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function(){
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             window.map = JSON.parse(httpRequest.responseText);
-            window.floors = [];
-            map.floors.forEach(getFloor)
-        }};
-    httpRequest.open('GET','http://'+ip+':'+port+'/map/index.json', true);
-    httpRequest.send(null);
-}
-function loadImages() {
-    floors.forEach
-    //floor.bgrImage;
-    //floor.plrImage
-    //floor.textureList
-}
-function getFloor(name,index,array) {
-    var httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function () {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            window.floors[index] = JSON.parse(httpRequest.responseText);
-            window.floors[index].name = name;
-            if (array.lastIndex===index){
-                loadImages();
-            }
+            loadFloor(0);
         }
     };
-    httpRequest.open('GET','http://'+ip+':'+port+'/map/'+name+'/index.json',true);
+    httpRequest.open('GET','http://'+window.ip+':'+ window.port +'/map/index.json', true);
     httpRequest.send(null);
 }
-function getTests(ip,port) {
+function loadFloor(n) {
+    window.floorName = window.map.floors[n];
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            window.currentFloor = JSON.parse(httpRequest.responseText);
+            getSprites();
+            getRooms();
+        }
+    };
+    httpRequest.open('GET','http://'+window.ip+':'+window.port +'/map/'+floorName + '/index.json', true);
+    httpRequest.send(null);
+}
+function getSprites() {
+    window.sprites=new Array(currentFloor.textures.list.length);
+    currentFloor.textures.list.forEach(getSprite);
+    putSprites();
+    setRoom(0);
+}
+function getRooms() {
+    currentFloor.rooms = new Array(currentFloor.roomCount);
+    for(var i = 0; i < currentFloor.roomCount;i++){
+        getRoom(i);
+    }
+    game.start();
+}
+function setRoom(n) {
+    main.blocks = currentFloor.rooms[n].map;
+    main.width = rooms[n].width;
+    main.height = rooms[n].height;
+    mapBlocks(n);
+}
+function mapBlocks(n) {
+    main.blocks = currentFloor.rooms[n].blocks;
+}
+function getRoom(n) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            currentFloor.rooms[n] = JSON.parse(httpRequest.responseText);
+        }
+    };
+    httpRequest.open('GET','http://'+window.ip+':'+window.port +'/map/'+floorName + '/rooms/'+ (n+1) +'.json', true);
+    httpRequest.send(null);
+}
+function putSprites() {
+    bgr.img = sprites[currentFloor.textures.background];
+    
+}
+function getSprite(item,index) {
+    window.sprites[index]=new Image();
+    window.sprites[index].src = 'http://'+window.ip+':'+window.port +'/map/'+window.floorName + '/textures/'+item;
+}
+function getTests() {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function(){
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             window.testList = JSON.parse(httpRequest.responseText);
         }
     };
-    httpRequest.open('GET','http://'+ip+':'+port +'/tst/index.json', true);
+    httpRequest.open('GET','http://'+window.ip+':'+window.port +'/tst/index.json', true);
     httpRequest.send(null);
 }
