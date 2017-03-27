@@ -6,7 +6,6 @@ function connect(ip,port){
                 window.ip= ip;
                 window.port = port;
                 getMaps();
-                getRooms();
                 getTests();
                 console.log('OK');
             }

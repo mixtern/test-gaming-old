@@ -64,18 +64,25 @@ window.addEventListener("load",function(){
         height:0,
         width:0,
         textures:[],
-        draw:function(){
-            temp.ctx.clearRect(0,0,800,600);
-            if(game.mode === "debug"){
-                for(var x = 0;x*25<800;x++){
-                    for(var y = 0;y*25<600;y++) {
+        draw:function() {
+            temp.ctx.clearRect(0, 0, 800, 600);
+            if (game.mode === "debug") {
+                for (var x = 0; x * 25 < 800; x++) {
+                    for (var y = 0; y * 25 < 600; y++) {
                         temp.ctx.strokeStyle = "#0000FF";
-                        temp.ctx.strokeRect(x*25,y*25,25,25);
+                        temp.ctx.strokeRect(x * 25, y * 25, 25, 25);
                     }
                 }
             }
-            main.ctx.clearRect(0,0,800,600);
-            main.ctx.drawImage(temp,0,0)
+            for (var x = 0; x < main.width; x++) {
+                for (var y = 0; y < main.height; y++) {
+                    if(main.blocks[x][y]>0){
+                        temp.ctx.drawImage(main.textures[main.blocks[x][y]-1],x*25,y*25);
+                   }
+                }
+            }
+            main.ctx.clearRect(0, 0, 800, 600);
+            main.ctx.drawImage(temp, 0, 0)
         }
     };
     player = {
@@ -143,7 +150,6 @@ function loadFloor(n) {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             window.currentFloor = JSON.parse(httpRequest.responseText);
             getSprites();
-            getRooms();
         }
     };
     httpRequest.open('GET','http://'+window.ip+':'+window.port +'/map/'+floorName + '/index.json', true);
@@ -152,30 +158,50 @@ function loadFloor(n) {
 function getSprites() {
     window.sprites=new Array(currentFloor.textures.list.length);
     currentFloor.textures.list.forEach(getSprite);
-    putSprites();
-    setRoom(0);
+    window.spritesLeft = currentFloor.textures.list.length;
+}
+function getSprite(item,index) {
+    window.sprites[index]=new Image();
+    sprites[index].addEventListener('load', function () {
+        spritesLeft--;
+        if(!spritesLeft){
+            setTimeout(function () {
+                putSprites();
+                getRooms();
+            },1000);
+        }
+    });
+    sprites[index].src = 'http://'+window.ip+':'+window.port +'/map/'+window.floorName + '/textures/'+item;
 }
 function getRooms() {
     currentFloor.rooms = new Array(currentFloor.roomCount);
+    window.roomsLeft = currentFloor.roomCount;
     for(var i = 0; i < currentFloor.roomCount;i++){
         getRoom(i);
     }
-    game.start();
 }
 function setRoom(n) {
     main.blocks = currentFloor.rooms[n].map;
-    main.width = rooms[n].width;
-    main.height = rooms[n].height;
-    mapBlocks(n);
+    main.width = currentFloor.rooms[n].width;
+    main.height = currentFloor.rooms[n].height;
+    mapBlocks();
 }
-function mapBlocks(n) {
-    main.blocks = currentFloor.rooms[n].blocks;
+function mapBlocks() {
+    for(var i = 0;i < currentFloor.textures.blocks.length;i++){
+        main.textures[i] = sprites[currentFloor.textures.blocks[i]];
+    }
+
 }
 function getRoom(n) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function(){
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             currentFloor.rooms[n] = JSON.parse(httpRequest.responseText);
+            roomsLeft--;
+            if (!roomsLeft){
+                setRoom(0);
+                game.start();
+            }
         }
     };
     httpRequest.open('GET','http://'+window.ip+':'+window.port +'/map/'+floorName + '/rooms/'+ (n+1) +'.json', true);
@@ -183,11 +209,7 @@ function getRoom(n) {
 }
 function putSprites() {
     bgr.img = sprites[currentFloor.textures.background];
-    
-}
-function getSprite(item,index) {
-    window.sprites[index]=new Image();
-    window.sprites[index].src = 'http://'+window.ip+':'+window.port +'/map/'+window.floorName + '/textures/'+item;
+
 }
 function getTests() {
     var httpRequest = new XMLHttpRequest();
