@@ -10,7 +10,18 @@ function getRnd(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 var physics = {
+        const:{g:1,
+            jumpForce:2
+        },
         calc:function(){
+            physics.gravity();
+            physics.movement();
+        },
+        gravity:function () {
+            player.g-=g;
+        },
+        movement:function () {
+
         }
     },
     create = {
@@ -76,9 +87,13 @@ window.addEventListener("load",function(){
             }
             for (var x = 0; x < main.width; x++) {
                 for (var y = 0; y < main.height; y++) {
-                    if(main.blocks[x][y]>0){
+                    if(main.blocks[x][y]>0 && !isNaN(main.blocks[x][y])){
                         temp.ctx.drawImage(main.textures[main.blocks[x][y]-1],x*25,y*25);
                    }
+                   else if (main.blocks[x][y] ==='p' && (~-player.x || ~-player.y)){
+                        player.x = x*25;
+                        player.y= y*25
+                    }
                 }
             }
             main.ctx.clearRect(0, 0, 800, 600);
@@ -88,11 +103,15 @@ window.addEventListener("load",function(){
     player = {
         canvas:document.getElementById("player"),
         ctx:document.getElementById("player").getContext('2d'),
-        x:0,
-        y:0,
+        x:-1,
+        y:-1,
+        g:0,
         sprite:new Image(),
         draw:function(){
-
+            temp.ctx.clearRect(0, 0, 800, 600);
+            temp.ctx.drawImage(player.sprite,player.x,player.y);
+            player.ctx.clearRect(0, 0, 800, 600);
+            player.ctx.drawImage(temp, 0, 0)
         }
     };
     gui = {
@@ -105,8 +124,8 @@ window.addEventListener("load",function(){
     };
     temp.ctx = temp.getContext('2d');
     window.game = {
-        //mode:"debug",
-        mode:"production",
+        mode:"debug",
+        //mode:"production",
         start:function(){
             document.getElementById('connect').classList.add('hide');
             document.getElementById('game').classList.remove('hide');
@@ -209,7 +228,7 @@ function getRoom(n) {
 }
 function putSprites() {
     bgr.img = sprites[currentFloor.textures.background];
-
+    player.sprite = sprites[currentFloor.textures.player];
 }
 function getTests() {
     var httpRequest = new XMLHttpRequest();
