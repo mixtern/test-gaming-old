@@ -2,7 +2,7 @@
 var game = {},
     keys = {};
 //управление
-var stats = {floor:0,level:0}
+var stats = {floor:0,level:0};
 function keyPressed(n){
     return (n in keys);
 }
@@ -17,11 +17,11 @@ window.addEventListener('keyup',function(e){
         }
     },true);
 //генератор случайных чисел
-function getRnd(min, max) {
+/*function getRnd(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
-}
+}*/
 //Последовательность чисел
 function range(start,end) {
     if (start > end){
@@ -38,6 +38,11 @@ function isBlock(x,y) {
     return !(isNaN(main.blocks[x][y]) || main.blocks[x][y]==='0');
 }
 //
+function reset(){
+    player.x=-1;
+    player.y=-1;
+    main.doors=[];
+}
 var physics = {
         const:{g:10,
             jumpForce:6,
@@ -115,27 +120,20 @@ var physics = {
             }
         },
         doorCollision:function () {
-            var res;
+            var res=false;
             main.doors.forEach(function (door,n) {
-                if(
-                    (player.x>door.x*25)&&
-                    ((player.x+player.sprite.naturalWidth)<(door.x*25+main.doorTextures[n].naturalWidth))&&
-                    (player.y>door.y*25)&&
-                    ((player.y+player.sprite.naturalHeight)<(door.y*25+main.doorTextures[n].naturalHeight))
-                ){
-                    res = n;
+                if((player.x + player.sprite.naturalWidth>door.x*25)&& (player.x < door.x*25 + main.doorTextures[n].naturalWidth)&& (player.y + player.sprite.naturalHeight > door.y*25)&& (player.y < door.y*25 + main.doorTextures[n].naturalHeight)){
+                    res = n+1;
                 }
-                else res = false;
             });
-            console.log(res);
             return res;
         }
     },
-    set = {
+    /*set = {
         mode:function(mode){
             game.mode = mode;
         }
-    },
+    },*/
     temp,main,bgr,player,gui;
 // псевдо-константы
 constant = {
@@ -250,12 +248,6 @@ window.addEventListener("load",function(){
             clearInterval(game.interval);
             game.interval = null;
         },
-        pause:function() {
-            if (game.interval) {
-                game.stop()
-            }
-            else game.start();
-        },
         reDraw:function(){
             bgr.draw();
             main.draw();
@@ -289,6 +281,7 @@ function loadFloor(n) {
 }
 function nextFloor() {
     stats.floor++;
+    stats.level = 0;
     loadFloor(stats.floor % map.floors.length);
 }
 function getSprites() {
@@ -323,12 +316,16 @@ function setRoom(n) {
     mapBlocks();
 }
 function nextRoom() {
+    game.stop();
+    reset();
     stats.level++;
-    if(stats.level<currentFloor.roomCount){
-        stats.level=0;
+    if(stats.level>=currentFloor.roomCount){
         nextFloor();
     }
-    setRoom()
+    else {
+        setRoom(stats.level);
+        game.start();
+    }
 }
 function mapBlocks() {
     for(var i = 0;i < currentFloor.textures.blocks.length;i++){
@@ -369,6 +366,5 @@ function getTests() {
 }
 function sendAnswer(number) {
     //TODO SENDING ANSWER TO SERVER
-    console.log(number);
     nextRoom();
 }
