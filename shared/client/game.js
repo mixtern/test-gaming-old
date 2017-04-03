@@ -37,6 +37,7 @@ function range(start,end) {
 function isBlock(x,y) {
     return !(isNaN(main.blocks[x][y]) || main.blocks[x][y]==='0');
 }
+//
 var physics = {
         const:{g:10,
             jumpForce:6,
@@ -49,17 +50,17 @@ var physics = {
             var height = player.sprite.naturalHeight;
             var width = player.sprite.naturalWidth;
             var res = false;
+            var xx = 0;
             if (player.speed > 0){
-                range(Math.ceil(x/25),Math.ceil((x+width)/25)-1).forEach(function (xx){
+                xx = Math.floor((x+width+player.speed)/25);
                     range(Math.floor(y/25),Math.floor((y+height)/25)).forEach(function (yy){
-                        if (isBlock(xx,yy)) res = true;
+                        if (isBlock(xx,yy))res = true;
                 })
-            })} else if(player.speed < 0){
-                range(Math.ceil(x/25), Math.floor(x/25)).forEach(function (xx){
+            } else if(player.speed < 0){
+                xx = Math.floor((x+player.speed)/25);
                     range(Math.floor(y/25),Math.floor((y+height)/25)).forEach(function (yy){
                         if (isBlock(xx,yy)) res = true;
                     })
-                })
             }
             return res;
         },
@@ -67,20 +68,29 @@ var physics = {
             physics.jump();
             physics.gravity();
             physics.movement();
-            physics.doorCollision();
+            var res = physics.doorCollision();
+            if(res){
+                sendAnswer(res);
+            }
         },
         gravity:function () {
             player.g-=physics.const.g/60;
-            var bx = Math.floor((player.x + player.sprite.naturalWidth/2)/25);
-            var by = Math.floor((player.y + player.sprite.naturalHeight - player.g)/25);
-            if (!isBlock(bx,by)){
-                player.y -= player.g;
-                player.inAir=true;
-            }
-            else {
+            var bx1 = Math.floor((player.x+1)/25);
+            var bx2 = Math.floor((player.x + player.sprite.naturalWidth-1)/25);
+            var by1 = Math.floor((player.y + player.sprite.naturalHeight-player.g)/25);
+            var by2 = Math.floor((player.y - player.g)/25);
+            if (isBlock(bx1,by1)||isBlock(bx2,by1)){
                 player.g = 0;
                 player.inAir=false;
             }
+            else {
+                if(isBlock(bx1,by2)||isBlock(bx2,by2)){
+                    player.g=-Math.abs(player.g)
+                }
+                player.y -= player.g;
+                player.inAir=true;
+            }
+
             return player.inAir;
         },
         movement:function () {
@@ -105,7 +115,20 @@ var physics = {
             }
         },
         doorCollision:function () {
-
+            var res;
+            main.doors.forEach(function (door,n) {
+                if(
+                    (player.x>door.x*25)&&
+                    ((player.x+player.sprite.naturalWidth)<(door.x*25+main.doorTextures[n].naturalWidth))&&
+                    (player.y>door.y*25)&&
+                    ((player.y+player.sprite.naturalHeight)<(door.y*25+main.doorTextures[n].naturalHeight))
+                ){
+                    res = n;
+                }
+                else res = false;
+            });
+            console.log(res);
+            return res;
         }
     },
     set = {
@@ -143,15 +166,16 @@ window.addEventListener("load",function(){
         draw:function() {
             temp.ctx.clearRect(0, 0, 800, 600);
             if (game.mode === "debug") {
-                for (var x = 0; x * 25 < 800; x++) {
-                    for (var y = 0; y * 25 < 600; y++) {
+                var x,y;
+                for (x = 0; x * 25 < 800; x++) {
+                    for (y = 0; y * 25 < 600; y++) {
                         temp.ctx.strokeStyle = "#0000FF";
                         temp.ctx.strokeRect(x * 25, y * 25, 25, 25);
                     }
                 }
             }
-            for (var x = 0; x < main.width; x++) {
-                for (var y = 0; y < main.height; y++) {
+            for (x = 0; x < main.width; x++) {
+                for (y = 0; y < main.height; y++) {
                     if(main.blocks[x][y]>0 && !isNaN(main.blocks[x][y])){
                         temp.ctx.drawImage(main.textures[main.blocks[x][y]-1],x*25,y*25);
                    }
@@ -215,7 +239,7 @@ window.addEventListener("load",function(){
     };
     temp.ctx = temp.getContext('2d');
     window.game = {
-        //mode:"debug",
+        //TODO REMOVE mode:"debug",
         mode:"production",
         start:function(){
             document.getElementById('connect').classList.add('hide');
@@ -233,11 +257,11 @@ window.addEventListener("load",function(){
             else game.start();
         },
         reDraw:function(){
-            physics.calc();
             bgr.draw();
             main.draw();
             player.draw();
             gui.draw();
+            physics.calc();
         }};
 });
 function getMaps() {
@@ -262,6 +286,10 @@ function loadFloor(n) {
     };
     httpRequest.open('GET','http://'+window.ip+':'+window.port +'/map/'+floorName + '/index.json', true);
     httpRequest.send(null);
+}
+function nextFloor() {
+    stats.floor++;
+    loadFloor(stats.floor % map.floors.length);
 }
 function getSprites() {
     window.sprites=new Array(currentFloor.textures.list.length);
@@ -293,6 +321,14 @@ function setRoom(n) {
     main.width = currentFloor.rooms[n].width;
     main.height = currentFloor.rooms[n].height;
     mapBlocks();
+}
+function nextRoom() {
+    stats.level++;
+    if(stats.level<currentFloor.roomCount){
+        stats.level=0;
+        nextFloor();
+    }
+    setRoom()
 }
 function mapBlocks() {
     for(var i = 0;i < currentFloor.textures.blocks.length;i++){
@@ -330,4 +366,9 @@ function getTests() {
     };
     httpRequest.open('GET','http://'+window.ip+':'+window.port +'/tst/index.json', true);
     httpRequest.send(null);
+}
+function sendAnswer(number) {
+    //TODO SENDING ANSWER TO SERVER
+    console.log(number);
+    nextRoom();
 }
