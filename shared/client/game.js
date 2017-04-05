@@ -2,7 +2,7 @@
 var game = {},
     keys = {};
 //управление
-var stats = {floor:0,level:0};
+var stats = {floor:0,level:0,question:0,answers:[]};
 function keyPressed(n){
     return (n in keys);
 }
@@ -75,7 +75,8 @@ var physics = {
             physics.movement();
             var res = physics.doorCollision();
             if(res){
-                sendAnswer(res);
+				stats.question++;
+                answer(res);
             }
         },
         gravity:function () {
@@ -179,8 +180,8 @@ window.addEventListener("load",function(){
                    }
                    else {
                         if (main.blocks[x][y] ==='p' && !((~-player.x || ~-player.y)>0)){
-                            player.x = x*25;
-                            player.y= y*25
+                            player.x = x*25-player.sprite.naturalWidth;
+                            player.y = y*25-player.sprite.naturalHeight;
                         }
                         if (main.blocks[x][y][0] === 'd'){
                             main.doors[main.blocks[x][y][1]-1]={x:x,y:y};
@@ -225,10 +226,10 @@ window.addEventListener("load",function(){
             for(var y = startY,i=0;i<5;y+=30,i++){
                 temp.ctx.font = '20px Open Sans';
                 if (i===0){
-                    temp.ctx.fillText(testList.questions[0],x,y,400);
+                    temp.ctx.fillText(testList.questions[stats.question],x,y,400);
                 }
                 else{
-                    temp.ctx.fillText((i).toString()+"."+testList.answers[0][i-1],x,y,400);
+                    temp.ctx.fillText((i).toString()+"."+testList.answers[stats.question][i-1],x,y,400);
                 }
                 gui.ctx.clearRect(0, 0, 800, 600);
                 gui.ctx.drawImage(temp, 0, 0);
@@ -339,7 +340,9 @@ function getRoom(n) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function(){
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            currentFloor.rooms[n] = JSON.parse(httpRequest.responseText);
+			var str = httpRequest.responseText;
+			console.log(n);
+            currentFloor.rooms[n] = JSON.parse(str);
             roomsLeft--;
             if (!roomsLeft){
                 setRoom(0);
@@ -364,7 +367,14 @@ function getTests() {
     httpRequest.open('GET','http://'+window.ip+':'+window.port +'/tst/index.json', true);
     httpRequest.send(null);
 }
-function sendAnswer(number) {
-    //TODO SENDING ANSWER TO SERVER
-    nextRoom();
+function answer(number) {
+	answers.push(number);
+    if (stats.question==testList.length-1){
+		sendAnswers
+	}
+	else nextRoom();
+}
+function sendAnswers(){
+	
+	
 }
